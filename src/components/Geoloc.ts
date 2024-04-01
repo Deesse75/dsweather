@@ -1,16 +1,22 @@
-type getPosProps = {
-  setLat: React.Dispatch<React.SetStateAction<number>>;
-  setLon: React.Dispatch<React.SetStateAction<number>>;
+type GeolocProps = {
+  lat: number;
+  lon: number;
+  setLat: (lat: number) => void;
+  setLon: (lon: number) => void;
 };
 
-export default function getPosition({ setLat, setLon }: getPosProps): void {
+export default async function getPosition({
+  lat,
+  lon,
+  setLat,
+  setLon,
+}: GeolocProps): Promise<void> {
   navigator.geolocation.getCurrentPosition((position) => {
-    position.coords.latitude
-      ? setLat(position.coords.latitude)
-      : setLat(48.8534);
-    position.coords.longitude
-      ? setLon(position.coords.longitude)
-      : setLon(2.3488);
+    setLat(position.coords.latitude);
+    setLon(position.coords.longitude);
   });
+  if (!lat && !lon) {
+    setLat(50.4061);
+    setLon(4.52198);
+  }
 }
-
