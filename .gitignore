@@ -1,3 +1,5 @@
 .env
 info.txt
 src/assets/icons/
+node_modules/
+
