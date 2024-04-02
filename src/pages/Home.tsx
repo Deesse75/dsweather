@@ -1,75 +1,102 @@
-import { useEffect, useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import getPosition from "../components/Geoloc";
-import Location from "../components/Location";
-import { LocalContext } from "../context/local.context";
-import LocalDate from "../components/LocalDate";
+import { DailyContext } from "../context/daily.context";
+import { useNavigate } from "react-router-dom";
+import Daily from "./Daily";
 
 const Home = () => {
-  const [lat, setLat] = useState(0);
-  const [lon, setLon] = useState(0);
-  const state = useContext(LocalContext);
+  const [lat, setLat] = useState(0.0);
+  const [lon, setLon] = useState(0.0);
+  const [isLoading, setIsLoading] = useState(true);
+  const daily = useContext(DailyContext);
+  const nav = useNavigate();
 
   useEffect(() => {
-    const weatherData = async () => {
-      try {
-        await getPosition({ lat, lon, setLat, setLon });
-        const url = `${import.meta.env.VITE_API_URI}lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_API_KEY}&units=metric `;
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("Error fetching data");
-        }
-        const data = await response.json();
-        if (!data) {
-          throw new Error("Error fetching data");
-        }
-        console.log(data);
-        state.LocalDispatch({
-          type: "SET_LOCALDATA",
-          payload: {
-            city_lat: data.city.lat,
-            city_lon: data.city.lon,
-            city_name: data.city.name,
-            city_state: data.city.country,
-            city_sunrise: data.city.sunrise,
-            city_sunset: data.city.sunset,
-            city_timezone: data.city.timezone,
-            list_clouds: data.list[0].clouds.all,
-            last_update: data.list[0].dt_txt,
-            temp: data.list[0].main.temp,
-            temp_min: data.list[0].main.temp_min,
-            temp_max: data.list[0].main.temp_max,
-            temp_fells_like: data.list[0].main.feels_like,
-            temp_humidity: data.list[0].main.humidity,
-            temp_tendance: data.list[0].main.temp_kf,
-            prob_of_precipitation: data.list[0].pop,
-            part_of_day: data.list[0].sys.pod,
-            visibility: data.list[0].visibility,
-            wind_speed: data.list[0].wind.speed,
-            wind_max: data.list[0].wind.gust,
-            wind_direction: data.list[0].wind.deg,
-            description: data.list[0].weather[0].description,
-            icon: data.list[0].weather[0].icon,
-          },
-        });
-      } catch (error) {
-        console.error(error);
+    //Get the latitude and longitude of the user
+    const getLonLat = async () => {
+      await getPosition({ setLat, setLon });
+      //If the user refuses to share his location, we set the coordinates of Paris
+      if (!lat || !lon) {
+        setLat(48.857972);
+        setLon(2.294364);
       }
     };
-    weatherData();
+    getLonLat();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //Request API daily weather
+  useEffect(() => {
+    if (!lat || !lon) return;
+    const url = `${import.meta.env.VITE_API_DAILY_URI}lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_API_KEY}&units=metric `;
+
+    const dailyData = async () => {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(
+            "An error occurred while trying to connect to the API."
+          );
+        }
+        const data = await response.json();
+        console.log("data", data);
+        if (!data) {
+          throw new Error(
+            "An error occurred while trying to connect to the API."
+          );
+        }
+        localStorage.setItem("defineLocation", data.name);
+        daily.dailyDispatch({
+          type: "SET_DAILYDATA",
+          payload: {
+            summary: data.weather[0].main,
+            description: data.weather[0].description,
+            icon: data.weather[0].icon,
+            temp: data.main.temp,
+            feels_like: data.main.feels_like,
+            temp_min: data.main.temp_min,
+            temp_max: data.main.temp_max,
+            humidity: data.main.humidity,
+            visibility: data.visibility,
+            wind_speed: data.wind.speed,
+            wind_deg: data.wind.deg,
+            clouds: data.clouds.all,
+            dt: data.dt,
+            location: data.name,
+            country: data.sys.country,
+            sunrise: data.sys.sunrise,
+            sunset: data.sys.sunset,
+            timezone: data.timezone,
+          },
+        });
+        console.log("daily", daily);
+        setIsLoading(false);
+        nav("/");
+      } catch (error) {
+        console.error("error", error);
+        setIsLoading(false);
+        nav("/error");
+      }
+    };
+    dailyData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lat, lon]);
 
   return (
     <div className="home">
-      <div className="weatherBox">
-        <div className="location">
-          <Location />
-        </div>
-        <div className="date">
-          <LocalDate />
-        </div>
-      </div>
-      <div className="plusBox"></div>
+      {isLoading ? (
+        <>
+          <div className="loading">Loading...</div>
+        </>
+      ) : (
+        <>
+          <div className="dasboard">
+            <div className="dailyBox">
+              <Daily />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

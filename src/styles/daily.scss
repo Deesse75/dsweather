@@ -1,0 +1,32 @@
+.dailyBox {
+  display: flex;
+  flex-direction: column;
+
+  .location {
+    display: flex;
+    flex-direction: row;
+    font-size: 1rem;
+  }
+  .date {
+    font-size: 0.9rem;
+    margin: 3px 0 0 20px;
+  }
+}
+
+.temp {
+  display: flex;
+  flex-direction: row;
+  .left {
+    display: flex;
+    margin: 5px 20px 5px 10px;
+    flex-direction: row;
+    .tempNum {
+      font-size: 2rem;
+      margin-top: 5px;
+    }
+  }
+  .right {
+    font-size: 0.8rem;
+    margin-top: 5px;
+  }
+}

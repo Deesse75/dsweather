@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import LocationIcon from "./icons/LocationIcon";
-import { LocalContext } from "../context/local.context";
+import { DailyContext } from "../context/daily.context";
 
 const Location = () => {
-  const state = useContext(LocalContext);
+  const daily = useContext(DailyContext);
 
   return (
     <>
-    <div className="locationIcon"><LocationIcon /></div>
-      <div className="locationName">{`${state.state.city_name}, ${state.state.city_state}`}</div>
+    <div><LocationIcon /></div>
+      <div>{`${daily.state.location}, ${daily.state.country}`}</div>
     </>
   );
 };

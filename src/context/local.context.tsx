@@ -1,8 +1,14 @@
 import { createContext, Dispatch, useReducer } from "react";
-import { fullLocalDAtaType, localActionType, LocalDataInitial } from "../interfaces/local.interface";
+import {
+  fullLocalDataType,
+  localActionType,
+  localDataInitial,
+} from "../interfaces/local.interface";
 
-
-export const LocalReducer = (state: fullLocalDAtaType, action: localActionType) => {
+export const LocalReducer = (
+  state: fullLocalDataType,
+  action: localActionType
+) => {
   switch (action.type) {
     case "SET_LOCALDATA":
       return {
@@ -31,23 +37,17 @@ export const LocalReducer = (state: fullLocalDAtaType, action: localActionType) 
         description: action.payload.description,
         icon: action.payload.icon,
       };
-    case "SET_GEOLOC":
-      return {
-        ...state,
-        city_lat: action.payload.city_lat,
-        city_lon: action.payload.city_lon,
-      };
     default:
       return state;
   }
 };
 
 export const LocalContext = createContext<{
-  state: fullLocalDAtaType;
-  LocalDispatch: Dispatch<localActionType>;
+  state: fullLocalDataType;
+  localDispatch: Dispatch<localActionType>;
 }>({
-  state: LocalDataInitial,
-  LocalDispatch: () => {},
+  state: localDataInitial,
+  localDispatch: () => {},
 });
 
 export const LocalContextProvider = ({
@@ -55,37 +55,12 @@ export const LocalContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [state, dispatch] = useReducer(LocalReducer, {
-    city_lat: 0,
-    city_lon: 0,
-    city_name: "",
-    city_state: "",
-    city_sunrise: 0,
-    city_sunset: 0,
-    city_timezone: 0,
-    list_clouds: 0,
-    last_update: 0,
-    temp: 0,
-    temp_min: 0,
-    temp_max: 0,
-    temp_fells_like: 0,
-    temp_humidity: 0,
-    temp_tendance: 0,
-    prob_of_precipitation: 0,
-    part_of_day: "",
-    visibility: 0,
-    wind_speed: 0,
-    wind_max: 0,
-    wind_direction: 0,
-    description: "",
-    icon: "",
-  });
-
+  const [state, dispatch] = useReducer(LocalReducer, localDataInitial);
   return (
     <LocalContext.Provider
       value={{
         state,
-        LocalDispatch: dispatch,
+        localDispatch: dispatch,
       }}
     >
       {children}
