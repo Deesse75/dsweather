@@ -7,6 +7,7 @@ import Daily from "./Daily";
 const Home = () => {
   const [lat, setLat] = useState(0.0);
   const [lon, setLon] = useState(0.0);
+  const [isLocate, setIsLocate] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const daily = useContext(DailyContext);
   const nav = useNavigate();
@@ -14,17 +15,12 @@ const Home = () => {
   useEffect(() => {
     //Get the latitude and longitude of the user
     const getLonLat = async () => {
-      await getPosition({ setLat, setLon });
-      //If the user refuses to share his location, we set the coordinates of Paris
-      if (!lat || !lon) {
-        setLat(48.857972);
-        setLon(2.294364);
-      }
+      await getPosition({ setLat, setLon, setIsLocate });
     };
     getLonLat();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  
   //Request API daily weather
   useEffect(() => {
     if (!lat || !lon) return;
@@ -39,7 +35,6 @@ const Home = () => {
           );
         }
         const data = await response.json();
-        console.log("data", data);
         if (!data) {
           throw new Error(
             "An error occurred while trying to connect to the API."
@@ -49,17 +44,17 @@ const Home = () => {
         daily.dailyDispatch({
           type: "SET_DAILYDATA",
           payload: {
+            lat: lat,
+            lon: lon,
+            isLocate: isLocate,
             summary: data.weather[0].main,
-            description: data.weather[0].description,
             icon: data.weather[0].icon,
             temp: data.main.temp,
             feels_like: data.main.feels_like,
             temp_min: data.main.temp_min,
             temp_max: data.main.temp_max,
             humidity: data.main.humidity,
-            visibility: data.visibility,
             wind_speed: data.wind.speed,
-            wind_deg: data.wind.deg,
             clouds: data.clouds.all,
             dt: data.dt,
             location: data.name,
@@ -69,11 +64,9 @@ const Home = () => {
             timezone: data.timezone,
           },
         });
-        console.log("daily", daily);
         setIsLoading(false);
         nav("/");
       } catch (error) {
-        console.error("error", error);
         setIsLoading(false);
         nav("/error");
       }
@@ -92,7 +85,7 @@ const Home = () => {
         <>
           <div className="dasboard">
             <div className="dailyBox">
-              <Daily />
+              <Daily setLat={setLat} setLon={setLon} setIsLocate={setIsLocate} />
             </div>
           </div>
         </>

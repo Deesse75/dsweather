@@ -1,4 +1,4 @@
-const LocationIcon = () => {
+const LocationOnIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,4 +12,4 @@ const LocationIcon = () => {
   );
 };
 
-export default LocationIcon;
+export default LocationOnIcon;

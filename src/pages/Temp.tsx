@@ -13,10 +13,7 @@ const Temp = () => {
         <div className="tempNum">{`${Math.ceil(daily.state.temp)}°`}</div>
       </div>
       <div className="right">
-        <div className="summary">{daily.state.description}</div>
-        <div className="minmax">
-          {`${Math.ceil(daily.state.temp_max)}°/${Math.ceil(daily.state.temp_min)}°`}
-        </div>
+        <div className="summary">{daily.state.summary}</div>
         <div className="fells">{`Feels like ${Math.ceil(daily.state.feels_like)}°`}</div>
       </div>
     </div>
