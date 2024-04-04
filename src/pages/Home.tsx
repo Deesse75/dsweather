@@ -20,11 +20,12 @@ const Home = () => {
     getLonLat();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   //Request API daily weather
   useEffect(() => {
     if (!lat || !lon) return;
-    const url = `${import.meta.env.VITE_API_DAILY_URI}lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_API_KEY}&units=metric `;
+    const url = `${import.meta.env.VITE_API_FORECAST_URI}lat=${lat}&lon=${lon}&lang=FR&appid=${import.meta.env.VITE_API_KEY}&units=metric `;
+    // const url = `${import.meta.env.VITE_ONE_CALL_URI}lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_API_KEY}&units=metric `;
 
     const dailyData = async () => {
       try {
@@ -35,40 +36,39 @@ const Home = () => {
           );
         }
         const data = await response.json();
+        console.log("data", data);
         if (!data) {
           throw new Error(
             "An error occurred while trying to connect to the API."
           );
         }
-        localStorage.setItem("defineLocation", data.name);
         daily.dailyDispatch({
           type: "SET_DAILYDATA",
           payload: {
             lat: lat,
             lon: lon,
             isLocate: isLocate,
-            summary: data.weather[0].main,
-            icon: data.weather[0].icon,
-            temp: data.main.temp,
-            feels_like: data.main.feels_like,
-            temp_min: data.main.temp_min,
-            temp_max: data.main.temp_max,
-            humidity: data.main.humidity,
-            wind_speed: data.wind.speed,
-            clouds: data.clouds.all,
-            dt: data.dt,
-            location: data.name,
-            country: data.sys.country,
-            sunrise: data.sys.sunrise,
-            sunset: data.sys.sunset,
-            timezone: data.timezone,
+            description: data.list[0].weather[0].description,
+            icon: data.list[0].weather[0].icon,
+            temp: data.list[0].main.temp,
+            feels_like: data.list[0].main.feels_like,
+            temp_min: data.list[0].main.temp_min,
+            temp_max: data.list[0].main.temp_max,
+            humidity: data.list[0].main.humidity,
+            wind_speed: data.list[0].wind.speed,
+            clouds: data.list[0].clouds.all,
+            dt: data.list[0].dt_txt,
+            location: data.city.name,
+            country: data.city.country,
+            sunrise: data.city.sunrise,
+            sunset: data.city.sunset,
+            timezone: data.city.timezone,
           },
         });
         setIsLoading(false);
-        nav("/");
       } catch (error) {
         setIsLoading(false);
-        nav("/error");
+        nav("/error_api");
       }
     };
     dailyData();
@@ -83,11 +83,8 @@ const Home = () => {
         </>
       ) : (
         <>
-          <div className="dasboard">
-            <div className="dailyBox">
-              <Daily setLat={setLat} setLon={setLon} setIsLocate={setIsLocate} />
-            </div>
-          </div>
+          <Daily setLat={setLat} setLon={setLon} setIsLocate={setIsLocate} />
+          {/* <Forecast /> */}
         </>
       )}
     </div>

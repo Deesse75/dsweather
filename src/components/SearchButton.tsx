@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import SearchIcon from "./icons/SearchIcon";
 import { CoordonatesProps } from "../interfaces/props.interface";
+import LocationSearchIcon from "./icons/LocationSearchIcon";
 
 const SearchButton = ({ setLat, setLon }: CoordonatesProps) => {
   const [errMess, setErrMess] = useState("");
   const [location, setLocation] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const url = import.meta.env.VITE_GEO_URI;
+
+  const handleClick = () => {
+    setLocation("");
+    setErrMess("");
+    setOpen(!open);
+  };
 
   const handleFocus = () => {
     setLocation("");
@@ -16,12 +23,10 @@ const SearchButton = ({ setLat, setLon }: CoordonatesProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (e.currentTarget.loc.value === "") {
-      setErrMess("Please enter a location.");
       return;
     }
     setLocation(e.currentTarget.loc.value);
     e.currentTarget.reset();
-    setIsLoading(true);
   };
 
   useEffect(() => {
@@ -45,10 +50,10 @@ const SearchButton = ({ setLat, setLon }: CoordonatesProps) => {
         setLat(data[0].lat);
         setLon(data[0].lon);
         setLocation("");
-        setIsLoading(false);
+        setOpen(false);
       } catch (error) {
         setLocation("");
-        setErrMess("Location not found");
+        setErrMess("Merci d'entrer un nom de ville valide");
       }
     };
     findGeolocation();
@@ -57,23 +62,28 @@ const SearchButton = ({ setLat, setLon }: CoordonatesProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <div className="search">
-          <input
-            onFocus={handleFocus}
-            type="text"
-            name="loc"
-            placeholder="Search"
-          />
-          <button type="submit">
-            <SearchIcon />
-          </button>
-        </div>
-      </form>
-      {isLoading ? (
-        <div className="loading">Loading...</div>
-      ) : (
-        <>{errMess && <div className="err">{errMess}</div>}</>
+      <div className="searchIconOpen" onClick={handleClick}>
+        <SearchIcon />
+      </div>
+      {open && (
+        <>
+          <div className="searchBox">
+            <div className="searchForm">
+              <form onSubmit={handleSubmit}>
+                  <input
+                    onFocus={handleFocus}
+                    type="text"
+                    name="loc"
+                    placeholder="Entrer un nom de ville"
+                  />
+                    <button type="submit">
+                      <LocationSearchIcon />
+                    </button>
+              </form>
+            </div>
+            {errMess && <div className="searchErr">{errMess}</div>}
+          </div>
+        </>
       )}
     </>
   );

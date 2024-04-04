@@ -16,7 +16,7 @@ export const DailyReducer = (
         lat: action.payload.lat,
         lon: action.payload.lon,
         isLocate: action.payload.isLocate,
-        summary: action.payload.summary,
+        description: action.payload.description,
         icon: action.payload.icon,
         temp: action.payload.temp,
         feels_like: action.payload.feels_like,

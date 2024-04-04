@@ -4,13 +4,13 @@ const Error = () => {
   const nav = useNavigate();
   return (
     <div className="errorPage">
-      <span>An error occured</span>
+      <span>Cette page n'existe pas</span>
       <button
         onClick={() => {
           nav("/");
         }}
       >
-        Try again
+        Accueil
       </button>
     </div>
   );

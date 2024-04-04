@@ -2,7 +2,7 @@ export type fullDailyDataType = {
   lat: number;
   lon: number;
   isLocate: boolean;
-  summary: string;
+  description: string;
   icon: string;
   temp: number;
   feels_like: number;
@@ -23,7 +23,7 @@ export const DailyDataInitial: fullDailyDataType = {
   lat: 0,
   lon: 0,
   isLocate: false,
-  summary: "",
+  description: "",
   icon: "",
   temp: 0,
   feels_like: 0,
