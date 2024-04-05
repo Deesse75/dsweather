@@ -36,7 +36,6 @@ const Home = () => {
           );
         }
         const data = await response.json();
-        console.log("data", data);
         if (!data) {
           throw new Error(
             "An error occurred while trying to connect to the API."
@@ -57,7 +56,7 @@ const Home = () => {
             humidity: data.list[0].main.humidity,
             wind_speed: data.list[0].wind.speed,
             clouds: data.list[0].clouds.all,
-            dt: data.list[0].dt_txt,
+            sync: data.list[0].dt,
             location: data.city.name,
             country: data.city.country,
             sunrise: data.city.sunrise,
@@ -92,5 +91,4 @@ const Home = () => {
 };
 
 export default Home;
-// const timestamp = 1712275200;
-// const date = new Date(timestamp * 1000);
+

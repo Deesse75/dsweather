@@ -11,7 +11,7 @@ export type fullDailyDataType = {
   humidity: number;
   wind_speed: number;
   clouds: number;
-  dt: number;
+  sync: number;
   location: string;
   country: string;
   sunrise: number;
@@ -32,7 +32,7 @@ export const DailyDataInitial: fullDailyDataType = {
   humidity: 0,
   wind_speed: 0,
   clouds: 0,
-  dt: 0,
+  sync: 0,
   location: "",
   country: "",
   sunrise: 0,

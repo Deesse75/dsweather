@@ -29,7 +29,7 @@
         cursor: pointer;
       }
       .searchBox {
-        background-color: rgba(1, 5, 65, 0.796);
+        background-color: rgba(79, 78, 78, 0.867);
         border-radius: 10px;
         position: absolute;
         left: 50px;
@@ -61,7 +61,6 @@
               color: white;
               cursor: pointer;
             }
-
           }
         }
         .searchErr {
@@ -71,12 +70,9 @@
         }
       }
     }
-
-
-
   }
 
-  .date{
+  .date {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -85,44 +81,67 @@
     }
   }
 
-}
-
-.temp {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-  .left {
+  .temp {
+    margin-top: 20px;
     display: flex;
-    margin: 5px 20px 0 10px;
     flex-direction: row;
-    .tempIcon {
-      img {
-        width: 70px;
-        height: 70px;
-        padding: 0;
+    .left {
+      display: flex;
+      margin: 5px 20px 0 10px;
+      flex-direction: row;
+      .tempIcon {
+        img {
+          width: 70px;
+          height: 70px;
+          padding: 0;
+        }
+      }
+      .tempNum {
+        font-size: 2.5rem;
+        margin-top: 10px;
       }
     }
-    .tempNum {
-      font-size: 2.5rem;
-      margin-top: 10px;
+    .right {
+      margin-top: 20px;
     }
   }
-  .right {
-    margin-top: 20px;
-  }
-}
 
-.minmax {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.8rem;
-  margin-left: 10px;
-  color: rgb(48, 52, 72);
-  .min,
-  .max {
-    margin-bottom: 1px;
-    width: 55px;
+  .details {
     display: flex;
-    padding: 0 0 0 5px;
+    flex-direction: column;
+    font-size: 0.8rem;
+    margin: 20px 0 0 10px;
+    color: rgb(48, 52, 72);
+    .detailsDiv {
+      margin-bottom: 1px;
+      width: 150px;
+      display: flex;
+      padding: 0 0 0 5px;
+    }
+  }
+
+  .up {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    font-size: 0.7rem;
+    margin: 20px 0 0 0;
+    color: #303448;
+
+    .upIcon {
+      cursor: pointer;
+    }
+
+    .notif {
+      display: flex;
+      position: absolute;
+      margin-top: 10px;
+      left: 200px;
+      padding: 5px;
+      color: rgb(194, 203, 242);
+      border-radius: 10px;
+      background-color: rgba(79, 78, 78, 0.867);
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.474);
+    }
   }
 }

@@ -25,7 +25,7 @@ export const DailyReducer = (
         humidity: action.payload.humidity,
         wind_speed: action.payload.wind_speed,
         clouds: action.payload.clouds,
-        dt: action.payload.dt,
+        sync: action.payload.sync,
         location: action.payload.location,
         country: action.payload.country,
         sunrise: action.payload.sunrise,
@@ -51,7 +51,6 @@ export const DailyContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [state, dispatch] = useReducer(DailyReducer, DailyDataInitial);
-  console.log("payload", state);
   return (
     <DailyContext.Provider
       value={{

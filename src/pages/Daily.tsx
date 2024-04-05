@@ -1,6 +1,4 @@
 import { useContext } from "react";
-import LocalDate from "../components/LocalDate";
-import MinMax from "../components/MinMax";
 import SearchButton from "../components/SearchButton";
 import LocationOffIcon from "../components/icons/LocationOffIcon";
 import LocationOnIcon from "../components/icons/LocationOnIcon";
@@ -8,6 +6,9 @@ import { DailyContext } from "../context/daily.context";
 import { GeolocProps } from "../interfaces/props.interface";
 import Temp from "./Temp";
 import getPosition from "../components/Geoloc";
+import Details from "../components/Details";
+import convertDate from "../components/ConvertDate";
+import Sync from "../components/Sync";
 
 const Daily = ({ setLat, setLon, setIsLocate }: GeolocProps) => {
   const daily = useContext(DailyContext);
@@ -39,10 +40,11 @@ const Daily = ({ setLat, setLon, setIsLocate }: GeolocProps) => {
       </div>
 
       <div className="date">
-        <LocalDate />
+        <div className="dateBox">{convertDate(Date.now(), 1)}</div>
       </div>
       <Temp />
-      <MinMax />
+      <Details />
+      <Sync setLat={setLat} setLon={setLon} />
     </div>
   );
 };
