@@ -1,36 +1,32 @@
-import { CoordonatesProps, GeolocProps } from "../interfaces/props.interface";
-
-export const getNavigatorPosition = ({
-  setLat,
-  setLon,
-}: CoordonatesProps): Promise<void> => {
-  {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLat(position.coords.latitude);
-          setLon(position.coords.longitude);
-          resolve();
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
-  }
+export const getNavigatorPosition = (): Promise<GeolocationPosition> => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        position.coords.latitude;
+        position.coords.longitude;
+        resolve(position);
+      },
+      (error) => {
+        reject(error);
+      }
+    );
+  });
 };
 
-export default async function getPosition({
-  setLat,
-  setLon,
-  setIsLocate,
-}: GeolocProps) {
+export default async function getPosition(): Promise<{
+  latitude: number;
+  longitude: number;
+}> {
   try {
-    await getNavigatorPosition({ setLat, setLon });
-    setIsLocate(true);
+    const coords = await getNavigatorPosition();
+    return {
+      latitude: coords.coords.latitude,
+      longitude: coords.coords.longitude,
+    };
   } catch (error) {
-    setIsLocate(false);
-    setLat(48.857972);
-    setLon(2.294364);
+    return {
+      latitude: 0,
+      longitude: 0,
+    };
   }
 }

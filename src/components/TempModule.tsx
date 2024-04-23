@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { DailyContext } from "../context/daily.context";
 
-const Temp = () => {
+const TempModule = () => {
   const daily = useContext(DailyContext);
   const icon = `http://openweathermap.org/img/wn/${daily.state.icon}.png`;
   return (
@@ -20,4 +20,4 @@ const Temp = () => {
   );
 };
 
-export default Temp;
+export default TempModule;

@@ -32,6 +32,12 @@ export const DailyReducer = (
         sunset: action.payload.sunset,
         timezone: action.payload.timezone,
       };
+    case "UPDATE_LOCATION":
+      return {
+        ...state,
+        lat: action.payload.lat,
+        lon: action.payload.lon,
+      };
     default:
       return state;
   }

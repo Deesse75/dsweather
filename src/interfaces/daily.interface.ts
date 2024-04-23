@@ -40,7 +40,11 @@ export const DailyDataInitial: fullDailyDataType = {
   timezone: 0,
 };
 
-export type dailyActionType = {
+export type dailyActionType = |{
   type: "SET_DAILYDATA";
   payload: fullDailyDataType;
+}
+| {
+  type: "UPDATE_LOCATION";
+  payload: { lat: number; lon: number };
 };

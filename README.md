@@ -11,5 +11,11 @@ VITE_API_FORECAST_URI=https://api.openweathermap.org/data/2.5/forecast?
 VITE_API_DAILY_URI=https://api.openweathermap.org/data/2.5/weather?
 VITE_ONE_CALL_URI=https://api.openweathermap.org/data/3.0/onecall?
 ```
-Pour obtenir une clé API [openweathermap](https://openweathermap.org/)
+Pour obtenir une clé API 
+
+[openweathermap sign up](https://home.openweathermap.org/users/sign_up)
+
+La clé est immédiatement disponible sous l'onglet "API keys"
+
+
 
