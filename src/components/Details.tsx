@@ -4,15 +4,9 @@ import convertDate from "./ConvertDate";
 
 const Details = () => {
   const daily = useContext(DailyContext);
-  const dailySunrise = convertDate(
-    daily.state.sunrise - daily.state.timezone,
-    1000
-  );
+  const dailySunrise = convertDate(daily.state.sunrise, 1000);
   const sunrise = dailySunrise.split(" ")[4];
-  const dailySunset = convertDate(
-    daily.state.sunset - daily.state.timezone,
-    1000
-  );
+  const dailySunset = convertDate(daily.state.sunset, 1000);
   const sunset = dailySunset.split(" ")[4];
 
   return (
