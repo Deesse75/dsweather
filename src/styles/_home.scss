@@ -1,0 +1,185 @@
+.home {
+  width: 100%;
+  height: 100%;
+  margin: 50px auto;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .daily {
+    width: 350px;
+    height: 330px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0.855;
+    box-shadow: 1px 1px 5px 1px rgba(24, 24, 24, 0.49);
+    border-radius: 20px;
+    background-color: $daily_bgc;
+  }
+}
+
+//LocationModule
+.location_div {
+  display: flex;
+  margin: 15px auto;
+  align-items: center;
+  color: $color_font_1;
+
+  .location_icon {
+    width: 25px;
+    color: $color_font_2;
+    cursor: pointer;
+  }
+  .location_country {
+    font-size: 1.3rem;
+    font-weight: bold;
+    width: 300px;
+  }
+}
+
+//Search
+.location_search {
+  display: flex;
+  margin-right: 10px;
+  position: relative;
+  color: $color_font_2;
+  .location_search_icon {
+    cursor: pointer;
+  }
+  .location_input {
+    width: 200px;
+    height: 30px;
+    padding: 3px 10px;
+    display: flex;
+    margin: 30px -180px;
+    border-radius: 20px;
+    border: none;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $body_bgc;
+    opacity: 0.655;
+    box-shadow: 1px 1px 5px 1px rgba(10, 10, 10, 0.812);
+    position: absolute;
+    input {
+      width: 75%;
+      border: none;
+      font-size: 1rem;
+      font-style: italic;
+      color: $color_font_5;
+      font-family: "Roboto Slab", sans-serif;
+      background-color: transparent;
+      &:focus {
+        outline: none;
+      }
+      &::placeholder {
+        font-size: 0.9rem;
+      }
+    }
+  }
+  .location_input_icon {
+    width: 40px;
+    display: flex;
+    align-items: center;
+    color: black;
+    justify-content: space-between;
+  }
+  .location_input_message {
+    position: absolute;
+    width: 200px;
+    display: flex;
+    font-size: 0.855rem;
+    font-style: italic;
+    color: $color_font_4;
+    margin: 72px -155px;
+  }
+}
+
+.location_date {
+  display: flex;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: $color_font_1;
+  margin: -15px 25px 10px 25px;
+}
+
+//TempModule
+.temp {
+  display: flex;
+  width: 100%;
+  margin: 20px auto;
+  align-items: center;
+  color: $color_font_1;
+  justify-content: space-between;
+  .temp_icon {
+    width: 80px;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+    }
+  }
+  .temp_num {
+    width: 140px;
+    text-align: center;
+    font-size: 5rem;
+  }
+  .temp_detail {
+    display: flex;
+    width: 110px;
+    flex-direction: column;
+    font-size: 1rem;
+    color: $color_font_2;
+    div {
+      margin: 1px 0;
+    }
+  }
+}
+
+//Details
+.detail {
+  display: flex;
+  font-size: 1.1rem;
+  margin: 0 0 0 20px;
+  flex-direction: column;
+  color: $color_font_1;
+  .detail_minmax {
+    margin: -40px 10px 50px 0;
+    font-size: 0.8rem;
+    color: $color_font_2;
+  }
+  .detail_sun {
+    width: 95%;
+    display: flex;
+    div {
+      width: 130px;
+      display: flex;
+    }
+  }
+}
+
+.sync {
+  display: flex;
+  justify-content: right;
+  margin: 30px 0 0 0;
+  align-items: center;
+  position: relative;
+  color: rgb(152, 150, 150);
+  .sync_div {
+    font-size: 0.7rem;
+    margin-right: 2px;
+  }
+  .sync_notif {
+    position: absolute;
+    font-size: 0.7rem;
+    margin: 0;
+    border-radius: 10px;
+    padding: 1px 4px;
+    color: black;
+    background-color: rgb(152, 150, 150);
+    &:hover {
+      cursor: default;
+    }
+  }
+}

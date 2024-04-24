@@ -6,15 +6,13 @@ const TempModule = () => {
   const icon = `http://openweathermap.org/img/wn/${daily.state.icon}.png`;
   return (
     <div className="temp">
-      <div className="left">
-        <div className="tempIcon">
-          <img src={icon} alt="" />
-        </div>
-        <div className="tempNum">{`${Math.ceil(daily.state.temp)}°`}</div>
+      <div className="temp_icon">
+        <img src={icon} alt="" />
       </div>
-      <div className="right">
-        <div className="summary">{daily.state.description}</div>
-        <div className="fells">{`Ressenti ${Math.ceil(daily.state.feels_like)}°`}</div>
+      <div className="temp_num">{`${Math.ceil(daily.state.temp)}°`}</div>
+      <div className="temp_detail">
+        <div>{daily.state.description}</div>
+        <div>{`Ressenti ${Math.ceil(daily.state.feels_like)}°`}</div>
       </div>
     </div>
   );

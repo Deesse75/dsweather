@@ -4,19 +4,24 @@ import convertDate from "./ConvertDate";
 
 const Details = () => {
   const daily = useContext(DailyContext);
-  const dailySunrise = convertDate(daily.state.sunrise, 1000);
-  const sunrise = dailySunrise.split(" ")[4];
-  const dailySunset = convertDate(daily.state.sunset, 1000);
-  const sunset = dailySunset.split(" ")[4];
+  //sunrise est a l'heure locale, on ajoute donc le décalage horaire pour avoir l'heure UTC et le timezone du lieu affiché
+  const sunrise = convertDate(daily.state.sunrise + daily.state.timezone - 7200, 1000);
+  const sunset = convertDate(daily.state.sunset + daily.state.timezone - 7200, 1000);
 
   return (
-    <div className="details">
-      <div className="detailsDiv">{`min : ${Math.ceil(daily.state.temp_min)}°`}</div>
-      <div className="detailsDiv">{`max : ${Math.ceil(daily.state.temp_max)}°`}</div>
-      <div className="detailsDiv">{`Vent : ${Math.ceil(daily.state.wind_speed)}km/h`}</div>
-      <div className="detailsDiv">{`Humidité : ${Math.ceil(daily.state.humidity)}%`}</div>
-      <div className="detailsDiv">{`Lever du soleil : ${sunrise}`}</div>
-      <div className="detailsDiv">{`Coucher du sloeil : ${sunset}`}</div>
+    <div className="detail">
+      <div className="detail_minmax">
+        <div>{`min : ${Math.ceil(daily.state.temp_min)}°`}</div>
+        <div>{`max : ${Math.ceil(daily.state.temp_max)}°`}</div>
+      </div>
+      <div className="detail_sun">
+        <div>Lever du soleil</div>
+        <div>{sunrise}</div>
+      </div>
+      <div className="detail_sun">
+        <div>Coucher du soleil</div>
+        <div>{sunset}</div>
+      </div>
     </div>
   );
 };

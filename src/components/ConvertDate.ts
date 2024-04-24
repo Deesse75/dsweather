@@ -1,31 +1,13 @@
 
+//ind = 1 if value === new Date().getTime() and 1000 if value === data.sunrie or data.sunset
 export default function convertDate(value: number, ind: number): string {
   const newDate = new Date(value * ind);
-  const stringDay = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
-  const stringMonth = [
-    "Jan",
-    "Fev",
-    "Mar",
-    "Avr",
-    "Mai",
-    "Juin",
-    "Juil",
-    "Aout",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
   const year = newDate.getFullYear();
-  const month = newDate.getMonth() + 1;
-  const day = newDate.getDate();
-  const dayName = stringDay[day];
-  const monthName = stringMonth[month - 1];
-  const dailyDate = `${dayName} ${day} ${monthName} ${year}`;
-  const syncHour = newDate.getHours();
-  const syncMin = newDate.getMinutes();
-  const syncMinutes = syncMin < 10 ? `0${syncMin}` : syncMin;
-  const syncDate = `${dailyDate} ${syncHour}:${syncMinutes}`;
-  if (ind === 1) return dailyDate;
-  return syncDate;
+  const month = newDate.getMonth() + 1 < 10 ? `0${newDate.getMonth() + 1}` : newDate.getMonth() + 1;
+  const day = newDate.getDate() < 10 ? `0${newDate.getDate()}` : newDate.getDate();
+  const dailyDate = `${day}/${month}/${year}`;
+  const hours = newDate.getHours() < 10 ? `0${newDate.getHours()}` : newDate.getHours();
+  const minutes = newDate.getMinutes() < 10 ? `0${newDate.getMinutes()}` : newDate.getMinutes();
+  if(ind === 1) return dailyDate;
+  return `${hours}:${minutes}`;
 }

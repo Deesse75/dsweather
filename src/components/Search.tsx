@@ -6,6 +6,7 @@ import { Props } from "./LocationModule";
 
 const Search = ({setCoords}: Props) => {
   const ref1 = useRef<HTMLInputElement>(null);
+  const ref2 = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [location, setLocation] = useState("");
@@ -20,6 +21,10 @@ const Search = ({setCoords}: Props) => {
     setLocation(ref1.current.value);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && open) handleClick();
+  };
+
   useEffect(() => {
     if (!location) return;
     const findGeolocation = async () => {
@@ -31,15 +36,9 @@ const Search = ({setCoords}: Props) => {
           setMessage("Erreur de connexion à l'API");
           return;
         }
-        console.log("response", response);
         const data = await response.json();
         if (!data) {
           setMessage("Erreur de connexion à l'API");
-          return;
-        }
-        console.log("data", data);
-        if (data.lenght === 0) {
-          setMessage("Ville inconnue");
           return;
         }
         setCoords({
@@ -50,7 +49,7 @@ const Search = ({setCoords}: Props) => {
         return;
       } catch (error) {
         setLocation("");
-        setMessage("Erreur de connexion à l'API");
+          setMessage("Ville inconnue");
       }
     };
     findGeolocation();
@@ -60,28 +59,32 @@ const Search = ({setCoords}: Props) => {
   return (
     <div className="location_search">
       <div
+        className="location_search_icon"
         onClick={() => {
           setOpen(!open);
+          setWarning(false);
+          setMessage("");
         }}
       >
         <FaSearchLocation size={24} />
       </div>
       {open && (
         <>
-          <div className="location_input">
+          <div className="location_input" ref={ref2}>
             <input
               onFocus={() => {
                 setWarning(false);
                 setMessage("");
               }}
+              onKeyDown={handleKeyPress}
               type="text"
               ref={ref1}
               placeholder="Entrer une ville"
             />
             <div className="location_input_icon" onClick={handleClick}>
-              {warning && <CiWarning size={20} color="red" />}
+              {warning && <CiWarning size={20} color="#d60707" />}
               {!warning && <CiWarning size={20} style={{ opacity: 0 }} />}
-              <TfiReload />
+              <TfiReload style={{cursor: "pointer"}} />
             </div>
           </div>
           {message && <div className="location_input_message">{message}</div>}

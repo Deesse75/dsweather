@@ -2,13 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { DailyContext } from "../context/daily.context";
 import convertDate from "./ConvertDate";
 import { Props } from "./LocationModule";
+import { IoReloadCircleOutline } from "react-icons/io5";
+
 
 const Sync = ({ setCoords }: Props) => {
   const daily = useContext(DailyContext);
   const [sync, setSync] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
-  const dailySync = convertDate(daily.state.sync - daily.state.timezone, 1000);
-  const syncDate = dailySync.split(" ");
+  //decalage 3h
+  const dailySync = convertDate(daily.state.sync - 7200, 1000);
+  const dailySyncNext = convertDate(daily.state.sync - 7200 + 10800, 1000);
 
   const handleClick = () => {
     setSync(true);
@@ -26,18 +29,17 @@ const Sync = ({ setCoords }: Props) => {
     if (!showNotif) return;
     const timer = setTimeout(() => {
       setShowNotif(false);
-    }, 500);
+    }, 2500);
     return () => clearTimeout(timer);
   }, [showNotif]);
 
   return (
-    <div className="up">
-      <div className="dateUp">
-        {`${syncDate[1]} ${syncDate[2]} ${syncDate[4]}`}
+    <div className="sync">
+      <div className="sync_div">{dailySync}</div>
+      <div className="sync_icon" onClick={handleClick}>
+        <IoReloadCircleOutline />
       </div>
-      <div className="upIcon" onClick={handleClick}>
-      </div>
-      {showNotif ? <div className="notif">Synchronisé</div> : null}
+      {showNotif ? <div className="sync_notif">{`Prochaine actualisation à ${dailySyncNext}`}</div> : null}
     </div>
   );
 };
