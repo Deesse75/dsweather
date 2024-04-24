@@ -21,11 +21,13 @@ const LocationModule = ({ setCoords, setLoading }: Props) => {
   const today = convertDate((new Date().getTime()) , 1);
 
   const handleClick = async () => {
+    setLoading(true);
     const loc = await getPosition();
     setCoords({
       latitude: loc.latitude,
       longitude: loc.longitude,
     });
+    setLoading(false);
   };
   return (
     <>
