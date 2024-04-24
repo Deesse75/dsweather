@@ -8,6 +8,7 @@ import Details from "../components/Details";
 import Sync from "../components/Sync";
 
 const Home = () => {
+  const [loading, setLoading] = useState(false);
   const [coords, setCoords] = useState({
     latitude: 0,
     longitude: 0,
@@ -17,6 +18,7 @@ const Home = () => {
   const nav = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     //Get the latitude and longitude of the user
     const getCoords = async () => {
       const geoloc = await getPosition();
@@ -71,7 +73,9 @@ const Home = () => {
             timezone: data.city.timezone,
           },
         });
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         nav("/Error_api");
         return;
       }
@@ -81,24 +85,25 @@ const Home = () => {
   }, [coords.latitude, coords.longitude]);
 
   return (
-    <div className="home">
-      <div className="daily">
-        <div>
-          <LocationModule setCoords={setCoords} />
+    <>
+      <div className="home">
+        <div className="daily">
+          <div>
+            <LocationModule setCoords={setCoords} setLoading={setLoading} />
+          </div>
+          <div>
+            <TempModule />
+          </div>
+          <div>
+            <Details />
+          </div>
+          <div>
+            <Sync setCoords={setCoords} setLoading={setLoading} />
+          </div>
         </div>
-        <div>
-          <TempModule />
-        </div>
-        <div>
-          <Details />
-        </div>
-        <div>
-          <Sync setCoords={setCoords} />
-        </div>
+        {loading && <div className="loading">Chargement...</div>}
       </div>
-
-      {/* <Forecast /> */}
-    </div>
+    </>
   );
 };
 

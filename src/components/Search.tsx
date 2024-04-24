@@ -4,7 +4,7 @@ import { TfiReload } from "react-icons/tfi";
 import { CiWarning } from "react-icons/ci";
 import { Props } from "./LocationModule";
 
-const Search = ({setCoords}: Props) => {
+const Search = ({ setCoords, setLoading }: Props) => {
   const ref1 = useRef<HTMLInputElement>(null);
   const ref2 = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
@@ -27,6 +27,7 @@ const Search = ({setCoords}: Props) => {
 
   useEffect(() => {
     if (!location) return;
+    setLoading(true);
     const findGeolocation = async () => {
       try {
         const response = await fetch(
@@ -46,14 +47,16 @@ const Search = ({setCoords}: Props) => {
           longitude: data[0].lon,
         });
         setOpen(false);
+        setLoading(false);
         return;
       } catch (error) {
         setLocation("");
-          setMessage("Ville inconnue");
+        setMessage("Ville inconnue");
+        setLoading(false);
       }
     };
     findGeolocation();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   return (
@@ -84,7 +87,7 @@ const Search = ({setCoords}: Props) => {
             <div className="location_input_icon" onClick={handleClick}>
               {warning && <CiWarning size={20} color="#d60707" />}
               {!warning && <CiWarning size={20} style={{ opacity: 0 }} />}
-              <TfiReload style={{cursor: "pointer"}} />
+              <TfiReload style={{ cursor: "pointer" }} />
             </div>
           </div>
           {message && <div className="location_input_message">{message}</div>}

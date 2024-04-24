@@ -5,7 +5,7 @@ import { Props } from "./LocationModule";
 import { IoReloadCircleOutline } from "react-icons/io5";
 
 
-const Sync = ({ setCoords }: Props) => {
+const Sync = ({ setCoords, setLoading }: Props) => {
   const daily = useContext(DailyContext);
   const [sync, setSync] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
@@ -27,10 +27,12 @@ const Sync = ({ setCoords }: Props) => {
 
   useEffect(() => {
     if (!showNotif) return;
+    setLoading(false);
     const timer = setTimeout(() => {
       setShowNotif(false);
     }, 2500);
     return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showNotif]);
 
   return (

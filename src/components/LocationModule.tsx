@@ -12,9 +12,10 @@ export type Props = {
       longitude: number;
     }>
   >;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const LocationModule = ({ setCoords }: Props) => {
+const LocationModule = ({ setCoords, setLoading }: Props) => {
   //date du jour
   const daily = useContext(DailyContext);
   const today = convertDate((new Date().getTime()) , 1);
@@ -41,7 +42,7 @@ const LocationModule = ({ setCoords }: Props) => {
           )}
         </div>
         <div className="location_country">{`${daily.state.location}, ${daily.state.country}`}</div>
-        <Search setCoords={setCoords} />
+        <Search setCoords={setCoords} setLoading={setLoading} />
       </div>
       <div className="location_date">{today}</div>
     </>
